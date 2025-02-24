@@ -1,7 +1,7 @@
 {
     "name": "flowise",
     "version": "2.2.4",
-    "packageManager": "pnpm",
+    "packageManager": "pnpm@latest-9",
     "private": true,
     "homepage": "https://flowiseai.com",
     "workspaces": [
