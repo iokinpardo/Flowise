@@ -1,7 +1,6 @@
 {
     "name": "flowise",
     "version": "2.2.4",
-    "packageManager": "pnpm@9.8.1",
     "private": true,
     "homepage": "https://flowiseai.com",
     "workspaces": [
@@ -12,7 +11,7 @@
         "api-documentation"
     ],
     "scripts": {
-        "build": "npx turbo run build",
+        "build": "turbo run build",
         "build-force": "pnpm clean && turbo run build --force",
         "dev": "turbo run dev --parallel",
         "start": "run-script-os",
