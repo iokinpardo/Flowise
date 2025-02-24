@@ -110,7 +110,8 @@ export const availableDependencies = [
     'replicate',
     'srt-parser-2',
     'typeorm',
-    'weaviate-ts-client'
+    'weaviate-ts-client',
+    'kokoro-js'
 ]
 
 export const defaultAllowBuiltInDep = [
