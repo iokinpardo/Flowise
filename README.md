@@ -50,6 +50,18 @@ Download and Install [NodeJS](https://nodejs.org/en/download) >= 18.15.0
 
 3. Open [http://localhost:3000](http://localhost:3000)
 
+## ✨ Features
+
+### Enhanced Sticky Notes
+-   **Purpose:** Capture long-form thoughts with rich formatting while keeping the note unobtrusive behind flow nodes and connectors.
+-   **Usage example:**
+    1. Drag a sticky note onto the canvas.
+    2. Use the resize handles to expand the note in any direction while it is selected—the blue outline and handles disappear as soon as you click outside—then click the palette icon to switch between the five preset colors and toggle the markdown mode to preview formatted content.
+    3. Embed richer visuals by pasting sanitized HTML snippets—`<img>` tags for screenshots or a YouTube `<iframe>`—directly in the note body alongside Markdown.
+    4. Save the flow—the sticky note keeps its size, color, and markdown/HTML content when reloaded or duplicated.
+-   **Dependencies / breaking changes:** No additional dependencies or breaking changes.
+-   **Layering assurance:** Notes automatically stay behind every agentflow and chatflow node as well as their connectors so they never hide important UI.
+
 ## 🐳 Docker
 
 ### Docker Compose
