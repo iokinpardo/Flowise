@@ -1,11 +1,29 @@
 import { memo, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
+import DOMPurify from 'dompurify'
 import './Markdown.css'
 import { CodeBlock } from '../markdown/CodeBlock'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import rehypeMathjax from 'rehype-mathjax'
+import rehypeRaw from 'rehype-raw'
+
+const DEFAULT_HTML_SANITIZE_CONFIG = {
+    ADD_TAGS: ['iframe'],
+    ADD_ATTR: [
+        'allow',
+        'allowfullscreen',
+        'frameborder',
+        'src',
+        'width',
+        'height',
+        'style',
+        'loading',
+        'referrerpolicy',
+        'title'
+    ]
+}
 
 /**
  * Checks if text likely contains LaTeX math notation
@@ -71,9 +89,19 @@ const preprocessLatex = (text) => {
  * Supports various plugins and custom rendering components
  */
 export const MemoizedReactMarkdown = memo(
-    ({ children, ...props }) => {
+    ({ children, allowHtml = false, domPurifyConfig, ...props }) => {
+        const sanitizedChildren = useMemo(() => {
+            if (!allowHtml || typeof children !== 'string') return children
+
+            const config = domPurifyConfig || DEFAULT_HTML_SANITIZE_CONFIG
+            return DOMPurify.sanitize(children, config)
+        }, [allowHtml, children, domPurifyConfig])
+
         // Preprocess text to improve LaTeX compatibility
-        const processedChildren = useMemo(() => (typeof children === 'string' ? preprocessLatex(children) : children), [children])
+        const processedChildren = useMemo(
+            () => (typeof sanitizedChildren === 'string' ? preprocessLatex(sanitizedChildren) : sanitizedChildren),
+            [sanitizedChildren]
+        )
 
         // Enable math by default unless explicitly disabled
         const shouldEnableMath = useMemo(() => {
@@ -90,8 +118,11 @@ export const MemoizedReactMarkdown = memo(
 
         const rehypePlugins = useMemo(() => {
             if (props.rehypePlugins) return props.rehypePlugins
-            return shouldEnableMath ? [rehypeMathjax] : []
-        }, [props.rehypePlugins, shouldEnableMath])
+            const plugins = []
+            if (allowHtml) plugins.push(rehypeRaw)
+            if (shouldEnableMath) plugins.push(rehypeMathjax)
+            return plugins
+        }, [props.rehypePlugins, allowHtml, shouldEnableMath])
 
         return (
             <div className='react-markdown'>
@@ -160,5 +191,7 @@ MemoizedReactMarkdown.propTypes = {
     components: PropTypes.object,
     forceMath: PropTypes.bool,
     disableMath: PropTypes.bool,
-    mathPatterns: PropTypes.array
+    mathPatterns: PropTypes.array,
+    allowHtml: PropTypes.bool,
+    domPurifyConfig: PropTypes.object
 }
