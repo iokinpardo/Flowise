@@ -66,7 +66,7 @@ const StickyNote = ({ data, selected }) => {
 
     const getBackgroundColor = () => {
         if (customization?.isDarkMode) {
-            return selected ? darken(nodeColor, 0.4) : darken(nodeColor, 0.5)
+            return data.selected ? darken(nodeColor, 0.4) : darken(nodeColor, 0.5)
         } else {
             return selected ? lighten(nodeColor, 0.1) : lighten(nodeColor, 0.2)
         }
@@ -97,13 +97,11 @@ const StickyNote = ({ data, selected }) => {
                     height: '100%',
                     minWidth: 220,
                     minHeight: 160,
-                    position: 'relative',
-                    display: 'flex',
-                    flexDirection: 'column'
+                    position: 'relative'
                 }}
                 border={false}
             >
-                <NodeResizer minWidth={180} minHeight={140} isVisible={selected} />
+                <NodeResizer minWidth={180} minHeight={140} isVisible={data.selected} />
                 <NodeTooltip
                     open={!canvas.canvasDialogShow && open}
                     onClose={handleClose}
@@ -167,7 +165,7 @@ const StickyNote = ({ data, selected }) => {
                     }
                     placement='right-start'
                 >
-                    <Box sx={{ p: 1.5, width: '100%', height: '100%', overflow: 'auto', flex: 1 }}>
+                    <Box sx={{ p: 1.5, width: '100%', height: '100%', overflow: 'auto' }}>
                         {isEditing ? (
                             <Input
                                 key={data.id}
@@ -182,9 +180,7 @@ const StickyNote = ({ data, selected }) => {
                                 nodeId={data.id}
                             />
                         ) : (
-                            <MemoizedReactMarkdown allowHtml>
-                                {noteValue || '*Add your note here...*'}
-                            </MemoizedReactMarkdown>
+                            <MemoizedReactMarkdown>{noteValue || '*Add your note here...*'}</MemoizedReactMarkdown>
                         )}
                     </Box>
                 </NodeTooltip>
