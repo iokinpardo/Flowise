@@ -35,7 +35,7 @@ const StyledNodeToolbar = styled(NodeToolbar)(({ theme }) => ({
     boxShadow: '0 2px 14px 0 rgb(32 40 45 / 8%)'
 }))
 
-const StickyNote = ({ data }) => {
+const StickyNote = ({ data, selected }) => {
     const theme = useTheme()
     const customization = useSelector((state) => state.customization)
     const ref = useRef(null)
@@ -56,7 +56,7 @@ const StickyNote = ({ data }) => {
 
     // Get different shades of the color based on state
     const getStateColor = () => {
-        if (data.selected) return nodeColor
+        if (selected) return nodeColor
         if (isHovered) return alpha(nodeColor, 0.8)
         return alpha(nodeColor, 0.5)
     }
@@ -167,9 +167,9 @@ const StickyNote = ({ data }) => {
                     width: '100%',
                     backgroundColor: getBackgroundColor(),
                     display: 'flex',
-                    alignItems: 'center',
+                    flexDirection: 'column',
                     '&:hover': {
-                        boxShadow: data.selected ? `0 0 0 1px ${getStateColor()} !important` : 'none'
+                        boxShadow: selected ? `0 0 0 1px ${getStateColor()} !important` : 'none'
                     }
                 }}
                 border={false}
@@ -224,7 +224,8 @@ const StickyNote = ({ data }) => {
 }
 
 StickyNote.propTypes = {
-    data: PropTypes.object
+    data: PropTypes.object,
+    selected: PropTypes.bool
 }
 
 export default StickyNote

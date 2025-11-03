@@ -18,7 +18,7 @@ import { MemoizedReactMarkdown } from '@/ui-component/markdown/MemoizedReactMark
 import { flowContext } from '@/store/context/ReactFlowContext'
 import { DEFAULT_STICKY_NOTE_COLOR } from '@/utils/genericHelper'
 
-const StickyNote = ({ data }) => {
+const StickyNote = ({ data, selected }) => {
     const theme = useTheme()
     const canvas = useSelector((state) => state.canvas)
     const customization = useSelector((state) => state.customization)
@@ -59,7 +59,7 @@ const StickyNote = ({ data }) => {
     }, [currentNoteValue, inputParam.default, inputParam.name])
 
     const getBorderColor = () => {
-        if (data.selected) return theme.palette.primary.main
+        if (selected) return theme.palette.primary.main
         else if (customization?.isDarkMode) return theme.palette.grey[700]
         else return theme.palette.grey[900] + 50
     }
@@ -68,7 +68,7 @@ const StickyNote = ({ data }) => {
         if (customization?.isDarkMode) {
             return data.selected ? darken(nodeColor, 0.4) : darken(nodeColor, 0.5)
         } else {
-            return data.selected ? lighten(nodeColor, 0.1) : lighten(nodeColor, 0.2)
+            return selected ? lighten(nodeColor, 0.1) : lighten(nodeColor, 0.2)
         }
     }
 
@@ -214,7 +214,8 @@ const StickyNote = ({ data }) => {
 }
 
 StickyNote.propTypes = {
-    data: PropTypes.object
+    data: PropTypes.object,
+    selected: PropTypes.bool
 }
 
 export default memo(StickyNote)
