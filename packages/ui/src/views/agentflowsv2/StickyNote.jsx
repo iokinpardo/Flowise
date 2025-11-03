@@ -95,12 +95,7 @@ const StickyNote = ({ data, selected }) => {
     }
 
     return (
-        <div
-            ref={ref}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            style={{ position: 'relative', width: '100%', height: '100%' }}
-        >
+        <div ref={ref} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} style={{ position: 'relative' }}>
             <StyledNodeToolbar>
                 <ButtonGroup sx={{ gap: 1 }} variant='outlined' aria-label='Basic button group'>
                     <IconButton
@@ -166,7 +161,7 @@ const StickyNote = ({ data, selected }) => {
                 sx={{
                     borderColor: getStateColor(),
                     borderWidth: '1px',
-                    boxShadow: selected ? `0 0 0 1px ${getStateColor()} !important` : 'none',
+                    boxShadow: data.selected ? `0 0 0 1px ${getStateColor()} !important` : 'none',
                     minHeight: 160,
                     height: '100%',
                     width: '100%',
@@ -179,7 +174,7 @@ const StickyNote = ({ data, selected }) => {
                 }}
                 border={false}
             >
-                <Box sx={{ p: 1, width: '100%', height: '100%', overflow: 'auto', flex: 1 }}>
+                <Box sx={{ p: 1, width: '100%', height: '100%', overflow: 'auto' }}>
                     {isEditing ? (
                         <Input
                             key={data.id}
@@ -199,7 +194,7 @@ const StickyNote = ({ data, selected }) => {
                     )}
                 </Box>
             </CardWrapper>
-            <NodeResizer minWidth={180} minHeight={140} isVisible={selected} />
+            <NodeResizer minWidth={180} minHeight={140} isVisible={data.selected} />
             <Popover
                 open={Boolean(anchorEl)}
                 anchorEl={anchorEl}
